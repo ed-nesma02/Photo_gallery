@@ -1,0 +1,18 @@
+.header{
+  box-shadow: 0 4px 12px #00000014, 0 0 1px #0100001a;
+}
+
+.nav {
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+@media (min-width: 768px) {
+  .header {
+    position: sticky;
+    top: 0;
+  }
+}

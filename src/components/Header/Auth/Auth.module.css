@@ -1,0 +1,51 @@
+.container{
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.login{
+  color: #767676;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.login:hover{
+  color: #000000;
+}
+
+.name{
+  color: #767676;
+}
+
+.logout {
+  position: absolute;
+  top: 120%;
+  right: 0px;
+  border: none;
+  background: black;
+  color: white;
+  width: 80px;
+  height: 70%;
+}
+
+.logout::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    bottom: 100%;
+    left: 100%;
+    margin-left: -20px;
+    border: 5px solid transparent;
+    border-top-width: 0;
+    border-bottom-color: #111;
+}
