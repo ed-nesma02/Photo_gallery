@@ -4,7 +4,7 @@ import {API_URI} from '../../api/const';
 
 export const authRequestAsync = createAsyncThunk(
   'auth',
-  (status, {getState}) => {
+  async (status, {getState}) => {
     const {token, createdAt, scope, tokenType} = getState().token;
     return axios(
       `${API_URI}me?access_token=${token}&token_type=${tokenType}
@@ -21,7 +21,6 @@ export const authRequestAsync = createAsyncThunk(
           },
         }) => {
           const authData = {name, photo};
-          console.log('asd', authData);
           return {authData};
         }
       );
