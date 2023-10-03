@@ -38,9 +38,11 @@ export const tokenSlice = createSlice({
       state.tokenType = action.payload.tokenType;
       state.createdAt = action.payload.createdAt;
       state.scope = action.payload.scope;
+      state.status = action.payload.token ? 'fulfiled' : 'idle';
     },
     deleteToken(state) {
       state.token = '';
+      state.status = 'idle';
     },
   },
   extraReducers: (builder) => {

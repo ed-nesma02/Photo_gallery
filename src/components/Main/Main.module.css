@@ -24,7 +24,7 @@
   .myMasonryGridColumn {
     padding-left: 15px; /* gutter size offset */
   }
-  .myMasonryGridColumn > div {
+  .myMasonryGridColumn > li {
     margin-bottom: 15px; /* space between items */
   }
 }
