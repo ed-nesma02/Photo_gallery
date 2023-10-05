@@ -15,6 +15,7 @@ export const tokenRequestAsync = createAsyncThunk('token', () => {
       token_type: tokenType,
     }}) => {
       setToken({token, createdAt, scope, tokenType});
+      location.href = '/';
       return {token, createdAt, scope, tokenType};
     })
     .catch((err) => err);
@@ -38,7 +39,7 @@ export const tokenSlice = createSlice({
       state.tokenType = action.payload.tokenType;
       state.createdAt = action.payload.createdAt;
       state.scope = action.payload.scope;
-      state.status = action.payload.token ? 'fulfiled' : 'idle';
+      state.status = action.payload.token ? 'fulfilled' : 'idle';
     },
     deleteToken(state) {
       state.token = '';
@@ -52,7 +53,7 @@ export const tokenSlice = createSlice({
         state.error = '';
       })
       .addCase(tokenRequestAsync.fulfilled, (state, action) => {
-        state.status = 'fulfiled';
+        state.status = 'fulfilled';
         state.token = action.payload.token;
         state.tokenType = action.payload.tokenType;
         state.createdAt = action.payload.createdAt;

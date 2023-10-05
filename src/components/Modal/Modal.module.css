@@ -1,0 +1,110 @@
+.overlay {
+  z-index: 20;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
+}
+
+.modal {
+  position: relative;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  width: 80%;
+  padding: 15px 30px;
+  min-height: 100vh;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.authorLink {
+  display: grid;
+  grid-template-areas: 
+  'thumbnail name'
+  'thumbnail username';
+  gap: 0 10px;
+  text-decoration: none;
+  color: #000000;
+}
+
+.thumbnail {
+  grid-area: thumbnail;
+}
+.name {
+  grid-area: name;
+}
+.username {
+  grid-area: username;
+  font-size: 12px;
+  color: #8c8c8c;
+}
+.username:hover {
+  color: #000000;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 580px;
+}
+
+.bottom {
+  display: flex;
+  gap: 20px;
+}
+
+.field {
+  color: #8c8c8c;
+}
+
+.img {
+  max-width: min(100%, 1000px);
+  max-height: min(100%, 580px);
+}
+
+.thumbnail {
+  width: 42px;
+  height: 42px;
+  border-radius: 100%;
+  background-color: #FFF;
+}
+
+.like {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 10%;
+  border: none;
+  opacity: .8;
+  color: rgba(0, 0, 0, 0.8);
+}
+.like:hover {
+  opacity: 1;
+  color: rgba(0, 0, 0, 1);
+}
+
+.close {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 10px;
+  left: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+}
+
+.close:hover {
+  color: rgba(255, 255, 255, 1);
+}

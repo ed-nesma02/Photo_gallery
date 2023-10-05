@@ -5,14 +5,13 @@ import {ACCESS_KEY, API_URI} from '../../api/const';
 export const photosRequestAsync = createAsyncThunk(
   'photos',
   async (value, {getState}) => {
-    const authStatus = getState().token.status;
+    const tokenStatus = getState().token.status;
     const pageNumber = getState().photos.page;
     const {token, createdAt, scope, tokenType} = getState().token;
-    if (authStatus === 'fulfiled') {
+    if (tokenStatus === 'fulfilled') {
       return axios(
         `${API_URI}photos?per_page=30&page=${pageNumber}&access_token=${token}&
-        token_type=${tokenType}
-        &scope=${scope}&created_at=${createdAt}`
+        token_type=${tokenType}&scope=${scope}&created_at=${createdAt}`
       ).then(({data: photos}) => ({photos}));
     }
     return axios(

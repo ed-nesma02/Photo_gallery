@@ -13,11 +13,9 @@ export const Main = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!photos.length) return;
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          console.log('вижу');
           dispatch(photosRequestAsync());
         }
       },
