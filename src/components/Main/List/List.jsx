@@ -17,6 +17,18 @@ export const List = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (page === 'search') {
+      dispatch(searchRequestAsync());
+      return;
+    }
+    if (page === 'liked') {
+      dispatch(likedPhotoRequestAsync());
+      return;
+    }
+    dispatch(photosRequestAsync());
+  }, [page]);
+
+  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
