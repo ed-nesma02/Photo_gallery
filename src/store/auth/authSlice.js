@@ -18,9 +18,10 @@ export const authRequestAsync = createAsyncThunk(
           data: {
             name,
             profile_image: {large: photo},
+            username,
           },
         }) => {
-          const authData = {name, photo};
+          const authData = {name, photo, username};
           return {authData};
         }
       );

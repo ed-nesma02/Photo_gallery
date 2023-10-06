@@ -1,27 +1,58 @@
 import style from './Modal.module.css';
-import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import {ReactComponent as LikeIcon} from './img/like.svg';
 import {ReactComponent as CloseIcon} from './img/close.svg';
 import {useEffect, useRef} from 'react';
 import {usePhoto} from '../../hooks/usePhoto';
 import formatDate from '../../utils/formatDate';
+import {useNavigate, useParams} from 'react-router-dom';
+import {likeRequestAsync} from '../../store/like/likeSlice';
+import {useState} from 'react';
+import {useDispatch} from 'react-redux';
 
-export const Modal = ({id, close}) => {
+export const Modal = () => {
+  const {id, page} = useParams();
   const overlayRef = useRef(null);
   const [photo, status] = usePhoto(id);
+  const navigate = useNavigate();
+  const likeRef = useRef(null);
+  const dispatch = useDispatch();
+  const [like, setLike] = useState(photo?.liked_by_user);
+  const [countLikes, setCountLikes] = useState(photo?.likes);
+
+  const handleLike = () => {
+    if (like) {
+      dispatch(likeRequestAsync({like: !like, id: photo.id}));
+      setLike(false);
+      likeRef.current.style.color = '';
+      likeRef.current.style.backgroundColor = '';
+      setCountLikes(countLikes - 1);
+      return;
+    }
+    dispatch(likeRequestAsync({like: !like, id: photo.id}));
+    setLike(true);
+    likeRef.current.style.color = '#fff';
+    likeRef.current.style.backgroundColor = '#ff4a4a';
+    setCountLikes(countLikes + 1);
+  };
 
   const handleClick = (e) => {
     const target = e.target;
     const code = e.code;
     if (target === overlayRef.current || code === 'Escape') {
-      close();
+      navigate(`/${page}`);
     }
   };
 
   useEffect(() => {
+    if (like) {
+      likeRef.current.style.color = '#fff';
+      likeRef.current.style.backgroundColor = '#ff4a4a';
+    }
+
     document.addEventListener('click', handleClick);
     document.addEventListener('keydown', handleClick);
+
     () => {
       document.removeEventListener('click', handleClick);
       document.removeEventListener('keydown', handleClick);
@@ -48,7 +79,11 @@ export const Modal = ({id, close}) => {
                   <p className={style.name}>{photo.user.name}</p>
                   <p className={style.username}>{photo.user.username}</p>
                 </a>
-                <button className={style.like}>
+                <button
+                  className={style.like}
+                  onClick={handleLike}
+                  ref={likeRef}
+                >
                   <LikeIcon />
                 </button>
               </div>
@@ -66,20 +101,18 @@ export const Modal = ({id, close}) => {
                 </div>
                 <div className={style.likes}>
                   <p className={style.field}>Понравилось</p>
-                  <p className={style.vaue}>{photo.likes}</p>
+                  <p className={style.vaue}>{countLikes}</p>
                 </div>
               </div>
             </>
           )}
         </div>
-        <CloseIcon className={style.close} onClick={close} />
+        <CloseIcon
+          className={style.close}
+          onClick={() => navigate(`/${page}`)}
+        />
       </div>
     ),
     document.getElementById('modal-root')
   );
-};
-
-Modal.propTypes = {
-  id: PropTypes.string,
-  close: PropTypes.func,
 };

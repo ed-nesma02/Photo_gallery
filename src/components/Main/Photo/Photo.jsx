@@ -2,20 +2,58 @@ import formatDate from '../../../utils/formatDate';
 import style from './Photo.module.css';
 import PropTypes from 'prop-types';
 import {ReactComponent as LikeIcon} from './img/like.svg';
+import {useNavigate, useParams} from 'react-router-dom';
 import {useState} from 'react';
-import {Modal} from '../../Modal/Modal';
+import {useRef} from 'react';
+import {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
+import {likeRequestAsync} from '../../../store/like/likeSlice';
 
 export const Photo = ({photo}) => {
-  const [openModal, setOpenModal] = useState(false);
+  const navigate = useNavigate();
+  const likeRef = useRef(null);
+  const photoRef = useRef(null);
+  const dispatch = useDispatch();
+  const {page} = useParams();
+  const [like, setLike] = useState(photo.liked_by_user);
+  const [countLikes, setCountLikes] = useState(photo.likes);
 
-  const closeModal = () => {
-    setOpenModal(false);
+  const handleLike = () => {
+    if (like) {
+      dispatch(likeRequestAsync({like: !like, id: photo.id}));
+      setLike(false);
+      likeRef.current.style.color = '';
+      likeRef.current.style.backgroundColor = '';
+      setCountLikes(countLikes - 1);
+      return;
+    }
+    dispatch(likeRequestAsync({like: !like, id: photo.id}));
+    setLike(true);
+    likeRef.current.style.color = '#fff';
+    likeRef.current.style.backgroundColor = '#ff4a4a';
+    setCountLikes(countLikes + 1);
   };
+
+  const handleClick = (e) => {
+    const target = e.target;
+    if (target === photoRef.current) {
+      navigate(`/${page}/${photo.id}`);
+    }
+    console.log(target);
+  };
+
+  useEffect(() => {
+    if (like) {
+      likeRef.current.style.color = '#fff';
+      likeRef.current.style.backgroundColor = '#ff4a4a';
+      return;
+    }
+  }, []);
 
   return (
     <>
-      <article className={style.wrapper} onClick={() => setOpenModal(true)}>
-        <div className={style.info}>
+      <article className={style.wrapper} onClick={handleClick}>
+        <div className={style.info} ref={photoRef}>
           <a
             target="blank"
             href={photo.user.links.html}
@@ -30,8 +68,13 @@ export const Photo = ({photo}) => {
           </a>
           <p className={style.date}>{formatDate(photo.created_at)}</p>
           <div className={style.likeInfo}>
-            <p className={style.likeCount}>{photo.likes}</p>
-            <button className={style.like} type="submit">
+            <p className={style.likeCount}>{countLikes}</p>
+            <button
+              className={style.like}
+              onClick={handleLike}
+              ref={likeRef}
+              type="submit"
+            >
               <LikeIcon />
             </button>
           </div>
@@ -42,7 +85,6 @@ export const Photo = ({photo}) => {
           alt={photo.alt_description}
         />
       </article>
-      {openModal && <Modal id={photo?.id} close={closeModal}/>}
     </>
   );
 };

@@ -1,0 +1,34 @@
+.search {
+  position: relative;
+  width: 60%;
+  height: 38px;
+  justify-self: center;
+ 
+}
+
+.input {
+  width: 100%;
+  height: 100%;
+  padding: 0 40px 0 24px;
+  border-radius: 32px;
+  background:  #EEEFF2;
+  border: none;
+}
+.input::placeholder {
+  color:#969EAE;
+}
+.input:focus-visible,
+.input:hover {
+  outline: 1px solid #DFE3EB;
+}
+
+.btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 24px;
+  border-radius: 4px;
+  outline-offset: 4px;
+  border: none;
+  outline: 1px solid transparent;
+}

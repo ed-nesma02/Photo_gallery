@@ -1,47 +1,19 @@
 import style from './Main.module.css';
 
 import {Layout} from '../Layout/Layout/Layout';
-import {useDispatch, useSelector} from 'react-redux';
-import {Photo} from './Photo/Photo';
-import Masonry from 'react-masonry-css';
-import {useEffect, useRef} from 'react';
-import {photosRequestAsync} from '../../store/photos/photosSlice';
+import {List} from './List/List';
+import {Route, Routes} from 'react-router-dom';
+import {Modal} from '../Modal/Modal';
 
-export const Main = () => {
-  const photos = useSelector((state) => state.photos.photos);
-  const endList = useRef(null);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          dispatch(photosRequestAsync());
-        }
-      },
-      {
-        rootMargin: '1000px',
-      }
-    );
-    observer.observe(endList.current);
-  }, [endList.current]);
-
-  return (
-    <main className={style.main}>
-      <Layout>
-        <Masonry
-          breakpointCols={{default: 3}}
-          className={style.myMasonryGrid}
-          columnClassName={style.myMasonryGridColumn}
-        >
-          {photos?.map((photo) => (
-            <li key={photo.id} className={style.item}>
-              <Photo photo={photo} />
-            </li>
-          ))}
-          <li key="endElementListObserver" ref={endList}></li>
-        </Masonry>
-      </Layout>
-    </main>
-  );
-};
+export const Main = () => (
+  <main className={style.main}>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<List />} />
+        <Route path="/:page" element={<List />}>
+          <Route path=":id" element={<Modal />} />
+        </Route>
+      </Routes>
+    </Layout>
+  </main>
+);

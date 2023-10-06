@@ -5,16 +5,27 @@ import {useDispatch} from 'react-redux';
 import {tokenRequestAsync} from '../../../store/token/tokenSlice';
 import {useAuth} from '../../../hooks/useAuth';
 import {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {likedPhotoRequestAsync} from '../../../store/likedPhoto/likedPhoto';
 
 export const Auth = () => {
   const dispatch = useDispatch();
   const [auth, status, unAth] = useAuth();
   const [logout, setLogout] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (!localStorage.getItem('token') && location.search.includes('?code=')) {
       dispatch(tokenRequestAsync());
     }
   }, []);
+
+  const handleClick = () => {
+    dispatch(likedPhotoRequestAsync());
+    navigate('/liked');
+    setLogout(false);
+  };
+
   return (
     <div className={style.container}>
       {(status === 'idle' || status === 'rejected') && (
@@ -34,9 +45,18 @@ export const Auth = () => {
         </>
       )}
       {logout && (
-        <button className={style.logout} onClick={unAth}>
-          Выйти
-        </button>
+        <ul className={style.menu}>
+          <li className={style.item}>
+            <button className={style.logout} onClick={handleClick}>
+              Понравившиеся
+            </button>
+          </li>
+          <li className={style.item}>
+            <button className={style.logout} onClick={unAth}>
+              Выйти
+            </button>
+          </li>
+        </ul>
       )}
     </div>
   );
