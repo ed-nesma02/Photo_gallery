@@ -1,28 +1,25 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {searchRequestAsync} from './searchReducer';
+import {likedPhotoRequestAsync} from './likedPhotoReducer';
 
 const initialState = {
   status: 'idle',
-  query: '',
   photos: [],
   page: 1,
   error: '',
 };
 
-export const searchSlice = createSlice({
-  name: 'search',
+export const likedPhotosSlice = createSlice({
+  name: 'liked',
   initialState,
   reducers: {
-    searchRequestSuccess(state, action) {
+    likedPhotosSuccess(state, action) {
       state.status = 'fulfilled';
-      state.query = action.payload.query;
       state.photos = action.payload.photos;
       state.page = 2;
       state.error = '';
     },
-    searchRequestSuccessAfter(state, action) {
+    likedPhotosSuccessAfter(state, action) {
       state.status = 'fulfilled';
-      state.query = action.payload.query;
       state.photos = [...state.photos, ...action.payload.photos];
       state.page += 1;
       state.error = '';
@@ -30,17 +27,17 @@ export const searchSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(searchRequestAsync.pending, (state) => {
+      .addCase(likedPhotoRequestAsync.pending, (state) => {
         state.status = 'pending';
         state.error = '';
       })
-      .addCase(searchRequestAsync.rejected, (state, action) => {
+      .addCase(likedPhotoRequestAsync.rejected, (state, action) => {
         state.status = 'rejected';
         state.error = action.error;
       });
   },
 });
 
-export default searchSlice.reducer;
-export const {searchRequestSuccess, searchRequestSuccessAfter} =
-  searchSlice.actions;
+export default likedPhotosSlice.reducer;
+export const {likedPhotosSuccess, likedPhotosSuccessAfter} =
+  likedPhotosSlice.actions;

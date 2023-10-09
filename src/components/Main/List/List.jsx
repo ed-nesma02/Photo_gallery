@@ -1,46 +1,58 @@
 import Masonry from 'react-masonry-css';
 import style from './List.module.css';
 import {Photo} from '../Photo/Photo';
-import {photosRequestAsync} from '../../../store/photos/photosSlice';
 import {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useRef} from 'react';
 import {Outlet, useParams} from 'react-router-dom';
 import {usePhotos} from '../../../hooks/usePhotos';
-import {searchRequestAsync} from '../../../store/search/searchSlice';
-import {likedPhotoRequestAsync} from '../../../store/likedPhoto/likedPhoto';
+import BarsLoader from '../../../UI/BarsLoader';
+import {photosRequestAsync} from '../../../store/photos/photosReducer';
+import {likedPhotoRequestAsync}
+  from '../../../store/likedPhoto/likedPhotoReducer';
+import {searchRequestAsync} from '../../../store/search/searchReducer';
 
 export const List = () => {
   const {page} = useParams();
-  const [photos] = usePhotos({page});
+  const [photos, status] = usePhotos({page});
+  const statusAuth = useSelector((state) => state.auth.status);
   const endList = useRef(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (page === 'search') {
-      dispatch(searchRequestAsync());
+    if (page === 'liked' && statusAuth === 'fulfilled') {
+      dispatch(likedPhotoRequestAsync(true));
       return;
     }
-    if (page === 'liked') {
-      dispatch(likedPhotoRequestAsync());
-      return;
+    if (page === undefined) {
+      dispatch(photosRequestAsync(true));
     }
-    dispatch(photosRequestAsync());
   }, [page]);
 
   useEffect(() => {
+    if (page === 'liked' && statusAuth === 'fulfilled') {
+      dispatch(likedPhotoRequestAsync(true));
+      return;
+    }
+  }, [statusAuth]);
+
+  useEffect(() => {
+    if (!photos.length) return;
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
+        if (entries[0].isIntersecting && status === 'fulfilled') {
           if (page === 'search') {
             dispatch(searchRequestAsync());
+            console.log('observer search');
             return;
           }
           if (page === 'liked') {
             dispatch(likedPhotoRequestAsync());
+            console.log('observer liked');
             return;
           }
           dispatch(photosRequestAsync());
+          console.log('observer');
         }
       },
       {
@@ -54,20 +66,23 @@ export const List = () => {
         observer.unobserve(endList.current);
       }
     };
-  }, [endList.current]);
+  }, [endList.current, status]);
 
   return (
     <>
+      {status === 'rejected' && <p>Произошла ошибка</p>}
+      {!photos.length && status === 'pending' && <BarsLoader />}
       <Masonry
         breakpointCols={{default: 3}}
         className={style.myMasonryGrid}
         columnClassName={style.myMasonryGridColumn}
       >
-        {photos?.map((photo) => (
-          <li key={photo.id} className={style.item}>
-            <Photo photo={photo} />
-          </li>
-        ))}
+        {(photos.length || status === 'fulfilled') &&
+          photos?.map((photo) => (
+            <li key={photo.id} className={style.item}>
+              <Photo photo={photo} />
+            </li>
+          ))}
         <li key="endElementListObserver" ref={endList}></li>
       </Masonry>
       <Outlet />

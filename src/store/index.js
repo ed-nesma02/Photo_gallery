@@ -4,7 +4,7 @@ import authReducer from './auth/authSlice';
 import photosReducer from './photos/photosSlice';
 import photoReducer from './photo/photoSlice';
 import searchReducer from './search/searchSlice';
-import likedPhotosReducer from './likedPhoto/likedPhoto';
+import likedPhotosReducer from './likedPhoto/likedPhotoSlice';
 
 export const store = configureStore({
   reducer: {

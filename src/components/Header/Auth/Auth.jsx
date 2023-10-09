@@ -6,7 +6,6 @@ import {tokenRequestAsync} from '../../../store/token/tokenSlice';
 import {useAuth} from '../../../hooks/useAuth';
 import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {likedPhotoRequestAsync} from '../../../store/likedPhoto/likedPhoto';
 
 export const Auth = () => {
   const dispatch = useDispatch();
@@ -21,7 +20,6 @@ export const Auth = () => {
   }, []);
 
   const handleClick = () => {
-    dispatch(likedPhotoRequestAsync());
     navigate('/liked');
     setLogout(false);
   };

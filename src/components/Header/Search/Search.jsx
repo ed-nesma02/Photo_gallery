@@ -3,7 +3,7 @@ import style from './Search.module.css';
 import {ReactComponent as SearchIcon} from './img/search.svg';
 import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {searchRequestAsync} from '../../../store/search/searchSlice';
+import {searchRequestAsync} from '../../../store/search/searchReducer';
 
 export const Search = () => {
   const [search, setSearh] = useState('');

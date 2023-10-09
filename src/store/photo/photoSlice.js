@@ -5,7 +5,6 @@ import axios from 'axios';
 export const photoRequestAsync = createAsyncThunk(
   'photo',
   async (id, {getState}) => {
-    console.log(id);
     const {token, createdAt, scope, tokenType} = getState().token;
     const tokenStatus = getState().token.status;
     if (tokenStatus === 'fulfilled') {

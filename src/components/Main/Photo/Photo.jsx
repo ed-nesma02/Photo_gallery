@@ -37,16 +37,14 @@ export const Photo = ({photo}) => {
   const handleClick = (e) => {
     const target = e.target;
     if (target === photoRef.current) {
-      navigate(`/${page}/${photo.id}`);
+      navigate(`/${page ?? 'photos'}/${photo.id}`);
     }
-    console.log(target);
   };
 
   useEffect(() => {
     if (like) {
       likeRef.current.style.color = '#fff';
       likeRef.current.style.backgroundColor = '#ff4a4a';
-      return;
     }
   }, []);
 
