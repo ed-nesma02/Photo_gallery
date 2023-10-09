@@ -7,10 +7,13 @@ export const searchRequestAsync = createAsyncThunk(
   'search',
   async (query, {dispatch, getState}) => {
     const {token, createdAt, scope, tokenType} = getState().token;
-    const page = getState().search.page;
+    const lastPage = getState().search.lastPage;
+    let page = getState().search.page;
     let querySearch = getState().search.query;
+    if (lastPage && !query) return;
     if (query) {
       querySearch = query;
+      page = 1;
     }
 
     return axios(

@@ -7,8 +7,10 @@ export const likedPhotoRequestAsync = createAsyncThunk(
   'liked',
   async (firstPage, {dispatch, getState}) => {
     const {token, createdAt, scope, tokenType} = getState().token;
+    const lastPage = getState().liked.lastPage;
     let page = getState().liked.page;
     const {username} = getState().auth.authData;
+    if (lastPage && !firstPage) return;
     if (firstPage) {
       page = 1;
     }

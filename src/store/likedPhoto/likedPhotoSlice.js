@@ -6,6 +6,7 @@ const initialState = {
   photos: [],
   page: 1,
   error: '',
+  lastPage: false,
 };
 
 export const likedPhotosSlice = createSlice({
@@ -16,12 +17,14 @@ export const likedPhotosSlice = createSlice({
       state.status = 'fulfilled';
       state.photos = action.payload.photos;
       state.page = 2;
+      state.lastPage = false;
       state.error = '';
     },
     likedPhotosSuccessAfter(state, action) {
       state.status = 'fulfilled';
       state.photos = [...state.photos, ...action.payload.photos];
       state.page += 1;
+      state.lastPage = !action.payload.photos.lenght;
       state.error = '';
     },
   },

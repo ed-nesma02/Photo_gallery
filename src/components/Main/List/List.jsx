@@ -43,16 +43,13 @@ export const List = () => {
         if (entries[0].isIntersecting && status === 'fulfilled') {
           if (page === 'search') {
             dispatch(searchRequestAsync());
-            console.log('observer search');
             return;
           }
           if (page === 'liked') {
             dispatch(likedPhotoRequestAsync());
-            console.log('observer liked');
             return;
           }
           dispatch(photosRequestAsync());
-          console.log('observer');
         }
       },
       {
@@ -73,7 +70,7 @@ export const List = () => {
       {status === 'rejected' && <p>Произошла ошибка</p>}
       {!photos.length && status === 'pending' && <BarsLoader />}
       <Masonry
-        breakpointCols={{default: 3}}
+        breakpointCols={{default: 3, 768: 1}}
         className={style.myMasonryGrid}
         columnClassName={style.myMasonryGridColumn}
       >

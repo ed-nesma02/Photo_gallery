@@ -7,6 +7,7 @@ const initialState = {
   photos: [],
   page: 1,
   error: '',
+  lastPage: false,
 };
 
 export const searchSlice = createSlice({
@@ -17,6 +18,7 @@ export const searchSlice = createSlice({
       state.status = 'fulfilled';
       state.query = action.payload.query;
       state.photos = action.payload.photos;
+      state.lastPage = false;
       state.page = 2;
       state.error = '';
     },
@@ -24,6 +26,7 @@ export const searchSlice = createSlice({
       state.status = 'fulfilled';
       state.query = action.payload.query;
       state.photos = [...state.photos, ...action.payload.photos];
+      state.lastPage = !action.payload.photos.lenght;
       state.page += 1;
       state.error = '';
     },
