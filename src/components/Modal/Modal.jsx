@@ -7,7 +7,6 @@ import formatDate from '../../utils/formatDate';
 import {useNavigate, useParams} from 'react-router-dom';
 import {TailSpinLoader} from '../../UI/TailSpinLoader/TailSpinLoader';
 import {Like} from './Like/Like';
-import {useSelector} from 'react-redux';
 
 export const Modal = () => {
   const {id, page} = useParams();
@@ -15,7 +14,6 @@ export const Modal = () => {
   const photoRef = useRef();
   const [clickPhoto, setClickPhoto] = useState(false);
   const [photo, status] = usePhoto(id);
-  const statusAuth = useSelector((state) => state.auth.status);
   const navigate = useNavigate();
 
   const handleClick = (e) => {
@@ -76,9 +74,7 @@ export const Modal = () => {
                   <p className={style.name}>{photo.user.name}</p>
                   <p className={style.username}>{photo.user.username}</p>
                 </a>
-                {statusAuth === 'fulfilled' && (
-                  <Like like={photo.liked_by_user} id={photo.id} />
-                )}
+                <Like like={photo.liked_by_user} id={photo.id} />
               </div>
               <div className={style.main}>
                 <img

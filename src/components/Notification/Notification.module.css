@@ -1,0 +1,62 @@
+.overlay {
+  z-index: 20;
+  position: fixed;
+  display: flex;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+}
+
+.modal {
+  position: relative;
+  margin: auto;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  padding: 15px 30px;
+}
+
+.title {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.login{
+  text-align: center;
+  color: #767676;
+  font-size: 18px;
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.close {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 10px;
+  left: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+}
+
+
+@media (min-width: 768px) {
+  .title{
+    margin-bottom: 30px;
+    font-size: 24px;
+  }
+  .login {
+    font-size: 24px;
+  }
+  
+  .login:hover{
+    color: #000000;
+  }
+
+  .close:hover {
+    color: rgba(255, 255, 255, 1);
+  }
+}

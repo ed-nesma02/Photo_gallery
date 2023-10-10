@@ -6,8 +6,9 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {useState} from 'react';
 import {useRef} from 'react';
 import {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {likeRequestAsync} from '../../../store/like/likeSlice';
+import {Notification} from '../../Notification/Notification';
 
 export const Photo = ({photo}) => {
   const navigate = useNavigate();
@@ -15,23 +16,29 @@ export const Photo = ({photo}) => {
   const photoRef = useRef(null);
   const dispatch = useDispatch();
   const {page} = useParams();
+  const statusAuth = useSelector((state) => state.auth.status);
   const [like, setLike] = useState(photo.liked_by_user);
   const [countLikes, setCountLikes] = useState(photo.likes);
+  const [openNotification, setOpenNotification] = useState(false);
 
   const handleLike = () => {
-    if (like) {
+    if (statusAuth === 'fulfilled') {
+      if (like) {
+        dispatch(likeRequestAsync({like: !like, id: photo.id}));
+        setLike(false);
+        likeRef.current.style.color = '';
+        likeRef.current.style.backgroundColor = '';
+        setCountLikes(countLikes - 1);
+        return;
+      }
       dispatch(likeRequestAsync({like: !like, id: photo.id}));
-      setLike(false);
-      likeRef.current.style.color = '';
-      likeRef.current.style.backgroundColor = '';
-      setCountLikes(countLikes - 1);
+      setLike(true);
+      likeRef.current.style.color = '#fff';
+      likeRef.current.style.backgroundColor = '#ff4a4a';
+      setCountLikes(countLikes + 1);
       return;
     }
-    dispatch(likeRequestAsync({like: !like, id: photo.id}));
-    setLike(true);
-    likeRef.current.style.color = '#fff';
-    likeRef.current.style.backgroundColor = '#ff4a4a';
-    setCountLikes(countLikes + 1);
+    setOpenNotification(true);
   };
 
   const handleClick = (e) => {
@@ -79,12 +86,13 @@ export const Photo = ({photo}) => {
           </div>
         </div>
         <img
-          loading='lazy'
+          loading="lazy"
           className={style.img}
           src={photo.urls.regular}
           alt={photo.alt_description}
         />
       </article>
+      {openNotification && <Notification close={setOpenNotification} />}
     </>
   );
 };

@@ -18,6 +18,7 @@
   color: #767676;
   cursor: pointer;
   text-decoration: none;
+  text-transform: uppercase;
 }
 
 .login:hover{

@@ -28,7 +28,7 @@ export const Auth = () => {
     <div className={style.container}>
       {(status === 'idle' || status === 'rejected') && (
         <a className={style.login} href={urlAuth}>
-          ВОЙТИ
+          Войти
         </a>
       )}
       {status === 'fulfilled' && (
