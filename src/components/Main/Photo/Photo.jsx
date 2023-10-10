@@ -38,6 +38,7 @@ export const Photo = ({photo}) => {
     const target = e.target;
     if (target === photoRef.current) {
       navigate(`/${page ?? 'photos'}/${photo.id}`);
+      document.body.style.overflowY = 'hidden';
     }
   };
 
@@ -78,8 +79,9 @@ export const Photo = ({photo}) => {
           </div>
         </div>
         <img
+          loading='lazy'
           className={style.img}
-          src={photo.urls.small}
+          src={photo.urls.regular}
           alt={photo.alt_description}
         />
       </article>

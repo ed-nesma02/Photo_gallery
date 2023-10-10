@@ -1,19 +1,21 @@
 import style from './Modal.module.css';
 import ReactDOM from 'react-dom';
 import {ReactComponent as CloseIcon} from './img/close.svg';
-import {useEffect, useRef} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {usePhoto} from '../../hooks/usePhoto';
 import formatDate from '../../utils/formatDate';
 import {useNavigate, useParams} from 'react-router-dom';
-import
-{TailSpinLoader}
-  from '../../UI/TailSpinLoader/TailSpinLoader';
+import {TailSpinLoader} from '../../UI/TailSpinLoader/TailSpinLoader';
 import {Like} from './Like/Like';
+import {useSelector} from 'react-redux';
 
 export const Modal = () => {
   const {id, page} = useParams();
   const overlayRef = useRef(null);
+  const photoRef = useRef();
+  const [clickPhoto, setClickPhoto] = useState(false);
   const [photo, status] = usePhoto(id);
+  const statusAuth = useSelector((state) => state.auth.status);
   const navigate = useNavigate();
 
   const handleClick = (e) => {
@@ -21,7 +23,25 @@ export const Modal = () => {
     const code = e.code;
     if (target === overlayRef.current || code === 'Escape') {
       navigate(`/${page === 'photos' ? '' : page}`);
+      document.body.style.overflowY = 'auto';
     }
+  };
+
+  const openImg = () => {
+    if (!clickPhoto) {
+      photoRef.current.style = `
+        z-index: 20;
+        position: absolute;
+        top: -20px;
+        width: calc(100vw - 17px);
+        max-width: none;
+        max-height: none;
+        cursor: zoom-out;`;
+      setClickPhoto(true);
+      return;
+    }
+    photoRef.current.style = '';
+    setClickPhoto(false);
   };
 
   useEffect(() => {
@@ -56,13 +76,18 @@ export const Modal = () => {
                   <p className={style.name}>{photo.user.name}</p>
                   <p className={style.username}>{photo.user.username}</p>
                 </a>
-                <Like like={photo.liked_by_user} id={photo.id}/>
+                {statusAuth === 'fulfilled' && (
+                  <Like like={photo.liked_by_user} id={photo.id} />
+                )}
               </div>
               <div className={style.main}>
                 <img
                   className={style.img}
                   src={photo.urls.full}
                   alt={photo.alt_description}
+                  onClick={openImg}
+                  ref={photoRef}
+                  style={{'--path': `url(${photo.urls.thumb})`}}
                 />
               </div>
               <div className={style.bottom}>
@@ -79,7 +104,13 @@ export const Modal = () => {
           )}
         </>
       </div>
-      <CloseIcon className={style.close} onClick={() => navigate(`/${page}`)} />
+      <CloseIcon
+        className={style.close}
+        onClick={() => {
+          navigate(`/${page}`);
+          photoRef.current.style = '';
+        }}
+      />
     </div>,
     document.getElementById('modal-root')
   );

@@ -67,8 +67,12 @@
 }
 
 .img {
+  --path: '';
   max-width: min(100%, 1000px);
   max-height: min(100%, 580px);
+  cursor: zoom-in;
+  background-image: var(--path);
+  background-size: 100%;
 }
 
 .thumbnail {

@@ -1,7 +1,7 @@
 import {useDispatch} from 'react-redux';
 import style from './Search.module.css';
 import {ReactComponent as SearchIcon} from './img/search.svg';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {searchRequestAsync} from '../../../store/search/searchReducer';
 
@@ -9,12 +9,18 @@ export const Search = () => {
   const [search, setSearh] = useState('');
   const dispath = useDispatch();
   const navigate = useNavigate();
+  const page = location.pathname;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispath(searchRequestAsync(search));
     navigate('/search');
   };
+  useEffect(() => {
+    if (page !== '/search') {
+      setSearh('');
+    }
+  }, [page]);
 
   return (
     <form className={style.search} onSubmit={handleSubmit}>

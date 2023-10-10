@@ -1,4 +1,6 @@
 .container{
+  grid-area: thumb;
+  justify-self: end;
   position: relative;
   display: flex;
   align-items: center;

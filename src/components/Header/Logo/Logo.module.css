@@ -1,3 +1,4 @@
 .link {
+  grid-area: logo;
   cursor: pointer;
 }

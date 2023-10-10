@@ -8,16 +8,20 @@ export const tokenRequestAsync = createAsyncThunk('token', () => {
   return axios(`${urlToken}&code=${code}`, {
     method: 'post',
   })
-    .then(({data: {
-      access_token: token,
-      created_at: createdAt,
-      scope,
-      token_type: tokenType,
-    }}) => {
-      setToken({token, createdAt, scope, tokenType});
-      location.href = '/';
-      return {token, createdAt, scope, tokenType};
-    })
+    .then(
+      ({
+        data: {
+          access_token: token,
+          created_at: createdAt,
+          scope,
+          token_type: tokenType,
+        },
+      }) => {
+        setToken({token, createdAt, scope, tokenType});
+        window.location.href = '/';
+        return {token, createdAt, scope, tokenType};
+      }
+    )
     .catch((err) => err);
 });
 

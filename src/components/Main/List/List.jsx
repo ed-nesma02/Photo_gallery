@@ -70,7 +70,7 @@ export const List = () => {
       {status === 'rejected' && <p>Произошла ошибка</p>}
       {!photos.length && status === 'pending' && <BarsLoader />}
       <Masonry
-        breakpointCols={{default: 3, 768: 1}}
+        breakpointCols={{default: 3, 767: 1}}
         className={style.myMasonryGrid}
         columnClassName={style.myMasonryGridColumn}
       >

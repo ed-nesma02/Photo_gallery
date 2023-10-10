@@ -1,10 +1,11 @@
 .wrapper {
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   z-index: 5;
   position: relative;
-}
-
-.wrapper:hover .info{
-  visibility: visible;
 }
 
 .img {
@@ -13,50 +14,38 @@
   vertical-align:top;
 }
 
-.info {
-  visibility: hidden;
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.3);
-  color: rgba(255, 255, 255, 0.9);
-}
-
 .authorLink {
-  position: absolute;
-  bottom: 20px;
-  text-decoration: none;
-  left: 20px;
+  position: relative;
   display: flex;
   align-items: center;
+  text-decoration: none;
+  color: #000;
   gap: 0 10px;
-  cursor: pointer;
-  color: rgba(255, 255, 255, 0.9);
 }
 
-.authorLink:hover {
-  color: rgba(255, 255, 255, 1);
-}
-
-.thumbnail {
-  width: 42px;
-  height: 42px;
-  border-radius: 100%;
-  background-color: #FFF;
-}
-
-.date {
-  position: absolute;
-  top: 20px;
-  left: 20px;
+.info {
+  padding: 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
 }
 
 .likeInfo {
   display: flex;
   position: absolute;
   align-items: center;
-  top: 20px;
-  right: 20px;
+  flex-direction: row-reverse;
+  bottom: 0;
+  left: 10px;
   gap: 0 10px;
+}
+
+.thumbnail {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  background-color: #FFF;
 }
 
 .like {
@@ -72,7 +61,61 @@
   color: rgba(0, 0, 0, 0.8);
 }
 
-.like:hover {
-  opacity: 1;
-  color: rgba(0, 0, 0, 1);
+
+@media (min-width: 768px){
+  .wrapper{
+    margin-bottom: 0;
+    padding-bottom: 0;
+    display: block;
+  }
+  .wrapper:hover .info{
+    visibility: visible;
+  }
+  .authorLink {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .info {
+    visibility: hidden;
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+    pointer-events: all;
+  }
+  
+  .authorLink:hover {
+    color: rgba(255, 255, 255, 1);
+  }
+  
+  .date {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
+  
+  .likeInfo {
+    display: flex;
+    position: absolute;
+    align-items: center;
+    flex-direction: row;
+    top: 20px;
+    right: 20px;
+    gap: 0 10px;
+    bottom: auto;
+    left: auto;
+  }
+
+  .thumbnail {
+    width: 42px;
+    height: 42px;
+  }
+  .like:hover {
+    opacity: 1;
+    color: rgba(0, 0, 0, 1);
+  }
 }
