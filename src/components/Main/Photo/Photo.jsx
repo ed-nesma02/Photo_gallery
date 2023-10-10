@@ -87,6 +87,10 @@ export const Photo = ({photo}) => {
         </div>
         <img
           loading="lazy"
+          style={{
+            'aspectRatio': `${photo.width}/${photo.height}`,
+            '--path': `url(${photo.urls.thumb})`,
+          }}
           className={style.img}
           src={photo.urls.regular}
           alt={photo.alt_description}
