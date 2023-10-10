@@ -4,7 +4,10 @@
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  height: 40px;
   gap: 10px;
+  width: 250px;
 }
 
 .icon{

@@ -6,6 +6,7 @@ import {tokenRequestAsync} from '../../../store/token/tokenSlice';
 import {useAuth} from '../../../hooks/useAuth';
 import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
+import {photosRequestAsync} from '../../../store/photos/photosReducer';
 
 export const Auth = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,12 @@ export const Auth = () => {
       dispatch(tokenRequestAsync());
     }
   }, []);
+  useEffect(() => {
+    if (status === 'fulfilled') {
+      navigate('/');
+      dispatch(photosRequestAsync(true));
+    }
+  }, [status]);
 
   const handleClick = () => {
     navigate('/liked');

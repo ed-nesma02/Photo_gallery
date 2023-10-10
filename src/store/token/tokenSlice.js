@@ -18,7 +18,6 @@ export const tokenRequestAsync = createAsyncThunk('token', () => {
         },
       }) => {
         setToken({token, createdAt, scope, tokenType});
-        window.location.href = '/';
         return {token, createdAt, scope, tokenType};
       }
     )
