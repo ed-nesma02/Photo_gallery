@@ -21,6 +21,7 @@
   text-decoration: none;
   color: #000;
   gap: 0 10px;
+  pointer-events: all;
 }
 
 .info {
