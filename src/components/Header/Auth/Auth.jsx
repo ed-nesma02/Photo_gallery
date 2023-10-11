@@ -15,10 +15,13 @@ export const Auth = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem('token') && location.search.includes('?code=')) {
+    if (
+      (!localStorage.getItem('token') && location.search.includes('?code=')) ||
+      status === 'rejected'
+    ) {
       dispatch(tokenRequestAsync());
     }
-  }, []);
+  }, [status]);
   useEffect(() => {
     if (status === 'fulfilled') {
       navigate('/');
