@@ -21,7 +21,10 @@ export const tokenRequestAsync = createAsyncThunk('token', () => {
         return {token, createdAt, scope, tokenType};
       }
     )
-    .catch((err) => err);
+    .catch((err) => {
+      setToken();
+      return err;
+    });
 });
 
 const initialState = {
