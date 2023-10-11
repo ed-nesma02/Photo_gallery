@@ -1,45 +1,18 @@
 import formatDate from '../../../utils/formatDate';
 import style from './Photo.module.css';
 import PropTypes from 'prop-types';
-import {ReactComponent as LikeIcon} from './img/like.svg';
 import {useNavigate, useParams} from 'react-router-dom';
 import {useState} from 'react';
 import {useRef} from 'react';
-import {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {likeRequestAsync} from '../../../store/like/likeSlice';
 import {Notification} from '../../Notification/Notification';
+import {Like} from './Like/Like';
 
-export const Photo = ({photo}) => {
+export const Photo = ({photo, status}) => {
   const navigate = useNavigate();
-  const likeRef = useRef(null);
   const photoRef = useRef(null);
-  const dispatch = useDispatch();
   const {page} = useParams();
-  const statusAuth = useSelector((state) => state.auth.status);
-  const [like, setLike] = useState(photo.liked_by_user);
-  const [countLikes, setCountLikes] = useState(photo.likes);
   const [openNotification, setOpenNotification] = useState(false);
 
-  const handleLike = () => {
-    if (statusAuth === 'fulfilled') {
-      if (like) {
-        dispatch(likeRequestAsync({like: !like, id: photo.id}));
-        setLike(false);
-        likeRef.current.style.color = '';
-        likeRef.current.style.backgroundColor = '';
-        setCountLikes(countLikes - 1);
-        return;
-      }
-      dispatch(likeRequestAsync({like: !like, id: photo.id}));
-      setLike(true);
-      likeRef.current.style.color = '#fff';
-      likeRef.current.style.backgroundColor = '#ff4a4a';
-      setCountLikes(countLikes + 1);
-      return;
-    }
-    setOpenNotification(true);
-  };
 
   const handleClick = (e) => {
     const target = e.target;
@@ -48,13 +21,6 @@ export const Photo = ({photo}) => {
       document.body.style.overflowY = 'hidden';
     }
   };
-
-  useEffect(() => {
-    if (like) {
-      likeRef.current.style.color = '#fff';
-      likeRef.current.style.backgroundColor = '#ff4a4a';
-    }
-  }, []);
 
   return (
     <>
@@ -74,15 +40,8 @@ export const Photo = ({photo}) => {
           </a>
           <p className={style.date}>{formatDate(photo.created_at)}</p>
           <div className={style.likeInfo}>
-            <p className={style.likeCount}>{countLikes}</p>
-            <button
-              className={style.like}
-              onClick={handleLike}
-              ref={likeRef}
-              type="submit"
-            >
-              <LikeIcon />
-            </button>
+            <p className={style.likeCount}>{photo.likes}</p>
+            <Like like={photo.liked_by_user} id={photo.id} status={status}/>
           </div>
         </div>
         <img
@@ -103,4 +62,5 @@ export const Photo = ({photo}) => {
 
 Photo.propTypes = {
   photo: PropTypes.object,
+  status: PropTypes.string,
 };

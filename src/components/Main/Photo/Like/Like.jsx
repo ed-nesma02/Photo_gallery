@@ -2,11 +2,11 @@ import {useEffect, useRef, useState} from 'react';
 import style from './Like.module.css';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {likeRequestAsync} from '../../../store/like/likeSlice';
 import {ReactComponent as LikeIcon} from '../img/like.svg';
-import {Notification} from '../../Notification/Notification';
+import {Notification} from '../../../Notification/Notification';
+import {likeRequestAsync} from '../../../../store/like/likeSlice';
 
-export const Like = ({like, id}) => {
+export const Like = ({like, id, status}) => {
   const [liked, setLiked] = useState(like);
   const likeRef = useRef(null);
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ export const Like = ({like, id}) => {
       likeRef.current.style.color = '#fff';
       likeRef.current.style.backgroundColor = '#ff4a4a';
     }
-  }, []);
+  }, [status]);
 
   return (
     <>
@@ -56,4 +56,5 @@ export const Like = ({like, id}) => {
 Like.propTypes = {
   like: PropTypes.bool,
   id: PropTypes.string,
+  status: PropTypes.string,
 };

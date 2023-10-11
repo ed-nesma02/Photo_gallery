@@ -77,7 +77,7 @@ export const List = () => {
         {(photos.length || status === 'fulfilled') &&
           photos?.map((photo) => (
             <li key={photo.id} className={style.item}>
-              <Photo photo={photo} />
+              <Photo photo={photo} status={status}/>
             </li>
           ))}
         <li key="endElementListObserver" ref={endList}></li>

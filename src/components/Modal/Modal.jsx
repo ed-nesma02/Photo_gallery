@@ -105,6 +105,7 @@ export const Modal = () => {
         onClick={() => {
           navigate(`/${page}`);
           photoRef.current.style = '';
+          document.body.style.overflowY = 'auto';
         }}
       />
     </div>,
