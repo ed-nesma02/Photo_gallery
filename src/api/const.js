@@ -1,5 +1,5 @@
 export const API_URI_AUTH = 'https://unsplash.com/oauth/authorize';
-export const REDIRECT_URI = 'http://localhost:3000/'; // https://photo-gallery-liard.vercel.app
+export const REDIRECT_URI = 'https://photo-gallery-liard.vercel.app/'; // https://photo-gallery-liard.vercel.app
 export const ACCESS_KEY = '0z01JYu0GcZGNTydj09VI77Kj3QcrVmB9h6qFeCD8S4';
 export const SECRET_KEY = 'PooKTofF8gpaV5Wk7EaNnkYNEGBkrgz05x5zuICg8yA';
 export const RESPONSE_TYPE = 'code';
