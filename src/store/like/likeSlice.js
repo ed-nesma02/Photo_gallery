@@ -1,4 +1,4 @@
-import {createAsyncThunk} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 import {ACCESS_KEY, API_URI} from '../../api/const';
 
@@ -13,6 +13,44 @@ export const likeRequestAsync = createAsyncThunk(
       {
         method: `${like ? 'post' : 'delete'}`,
       }
-    ).then(({data: photo}) => ({photo}));
+    ).then(
+      ({
+        data: {
+          photo: {liked_by_user: like, likes},
+        },
+      }) => ({like, likes})
+    );
   }
 );
+
+const initialState = {
+  status: 'idle',
+  likes: '',
+  like: '',
+  error: '',
+};
+
+export const likeSlice = createSlice({
+  name: 'like',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(likeRequestAsync.pending, (state) => {
+        state.status = 'pending';
+        state.error = '';
+      })
+      .addCase(likeRequestAsync.fulfilled, (state, action) => {
+        state.status = 'fulfilled';
+        state.likes = action.payload.likes;
+        state.like = action.payload.like;
+        state.error = '';
+      })
+      .addCase(likeRequestAsync.rejected, (state, action) => {
+        state.status = 'rejected';
+        state.error = action.error;
+      });
+  },
+});
+
+export default likeSlice.reducer;

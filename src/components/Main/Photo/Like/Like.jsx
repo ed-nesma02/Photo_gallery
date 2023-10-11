@@ -6,7 +6,7 @@ import {ReactComponent as LikeIcon} from '../img/like.svg';
 import {Notification} from '../../../Notification/Notification';
 import {likeRequestAsync} from '../../../../store/like/likeSlice';
 
-export const Like = ({like, id, status}) => {
+export const Like = ({like, id, status, setCount, count}) => {
   const [liked, setLiked] = useState(like);
   const likeRef = useRef(null);
   const dispatch = useDispatch();
@@ -20,12 +20,14 @@ export const Like = ({like, id, status}) => {
         setLiked(false);
         likeRef.current.style.color = '';
         likeRef.current.style.backgroundColor = '';
+        setCount(count - 1);
         return;
       }
       dispatch(likeRequestAsync({like: !liked, id}));
       setLiked(true);
       likeRef.current.style.color = '#fff';
       likeRef.current.style.backgroundColor = '#ff4a4a';
+      setCount(count + 1);
       return;
     }
     setOpenNotification(true);
@@ -35,7 +37,12 @@ export const Like = ({like, id, status}) => {
     if (like) {
       likeRef.current.style.color = '#fff';
       likeRef.current.style.backgroundColor = '#ff4a4a';
+      setLiked(like);
+      return;
     }
+    likeRef.current.style.color = '';
+    likeRef.current.style.backgroundColor = '';
+    setLiked(like);
   }, [status]);
 
   return (
@@ -57,4 +64,6 @@ Like.propTypes = {
   like: PropTypes.bool,
   id: PropTypes.string,
   status: PropTypes.string,
+  setCount: PropTypes.func,
+  count: PropTypes.number,
 };

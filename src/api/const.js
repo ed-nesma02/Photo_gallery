@@ -1,7 +1,7 @@
 export const API_URI_AUTH = 'https://unsplash.com/oauth/authorize';
 export const REDIRECT_URI = 'https://photo-gallery-liard.vercel.app/'; // https://photo-gallery-liard.vercel.app
-export const ACCESS_KEY = '0z01JYu0GcZGNTydj09VI77Kj3QcrVmB9h6qFeCD8S4';
-export const SECRET_KEY = 'PooKTofF8gpaV5Wk7EaNnkYNEGBkrgz05x5zuICg8yA';
+export const ACCESS_KEY = 'VZXhuPYL2cX5Xc0K6Km7FYKNlZ5Kgl14Kdi-vT_yeB0';
+export const SECRET_KEY = 'IwHM68zkE9Lt4EBOZzd7R8vJ-L5_lVEnJoPIPca03VM';
 export const RESPONSE_TYPE = 'code';
 export const SCOPE = 'public read_user read_photos write_likes';
 export const API_URI_TOKEN = 'https://unsplash.com/oauth/token';

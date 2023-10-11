@@ -2,7 +2,7 @@ import formatDate from '../../../utils/formatDate';
 import style from './Photo.module.css';
 import PropTypes from 'prop-types';
 import {useNavigate, useParams} from 'react-router-dom';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useRef} from 'react';
 import {Notification} from '../../Notification/Notification';
 import {Like} from './Like/Like';
@@ -12,7 +12,7 @@ export const Photo = ({photo, status}) => {
   const photoRef = useRef(null);
   const {page} = useParams();
   const [openNotification, setOpenNotification] = useState(false);
-
+  const [countlLike, setCountLike] = useState(photo.likes);
 
   const handleClick = (e) => {
     const target = e.target;
@@ -21,6 +21,11 @@ export const Photo = ({photo, status}) => {
       document.body.style.overflowY = 'hidden';
     }
   };
+  useEffect(() => {
+    if (status === 'fulfilled') {
+      setCountLike(photo.likes);
+    }
+  }, [status]);
 
   return (
     <>
@@ -40,8 +45,14 @@ export const Photo = ({photo, status}) => {
           </a>
           <p className={style.date}>{formatDate(photo.created_at)}</p>
           <div className={style.likeInfo}>
-            <p className={style.likeCount}>{photo.likes}</p>
-            <Like like={photo.liked_by_user} id={photo.id} status={status}/>
+            <p className={style.likeCount}>{countlLike}</p>
+            <Like
+              like={photo.liked_by_user}
+              id={photo.id}
+              status={status}
+              setCount={setCountLike}
+              count={countlLike}
+            />
           </div>
         </div>
         <img

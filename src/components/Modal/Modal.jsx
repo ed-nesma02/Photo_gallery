@@ -15,6 +15,7 @@ export const Modal = () => {
   const [clickPhoto, setClickPhoto] = useState(false);
   const [photo, status] = usePhoto(id);
   const navigate = useNavigate();
+  const [countlLike, setCountLike] = useState(photo.likes);
 
   const handleClick = (e) => {
     const target = e.target;
@@ -52,6 +53,12 @@ export const Modal = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (status === 'fulfilled') {
+      setCountLike(photo.likes);
+    }
+  }, [status]);
+
   return ReactDOM.createPortal(
     <div className={style.overlay} ref={overlayRef}>
       <div className={style.modal}>
@@ -74,7 +81,12 @@ export const Modal = () => {
                   <p className={style.name}>{photo.user.name}</p>
                   <p className={style.username}>{photo.user.username}</p>
                 </a>
-                <Like like={photo.liked_by_user} id={photo.id} />
+                <Like
+                  like={photo.liked_by_user}
+                  id={photo.id}
+                  count={countlLike}
+                  setCount={setCountLike}
+                />
               </div>
               <div className={style.main}>
                 <img
@@ -93,7 +105,7 @@ export const Modal = () => {
                 </div>
                 <div className={style.likes}>
                   <p className={style.field}>Понравилось</p>
-                  <p className={style.vaue}>{photo.likes}</p>
+                  <p className={style.vaue}>{countlLike}</p>
                 </div>
               </div>
             </>
