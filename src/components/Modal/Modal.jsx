@@ -7,6 +7,7 @@ import formatDate from '../../utils/formatDate';
 import {useNavigate, useParams} from 'react-router-dom';
 import {TailSpinLoader} from '../../UI/TailSpinLoader/TailSpinLoader';
 import {Like} from './Like/Like';
+import notPhoto from './img/default.jpg';
 
 export const Modal = () => {
   const {id, page} = useParams();
@@ -94,6 +95,9 @@ export const Modal = () => {
                   src={photo.urls.full}
                   alt={photo.alt_description}
                   onClick={openImg}
+                  onError={() => {
+                    photoRef.current.src = notPhoto;
+                  }}
                   ref={photoRef}
                   style={{'--path': `url(${photo.urls.thumb})`}}
                 />

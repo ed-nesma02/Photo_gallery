@@ -67,6 +67,7 @@
 }
 
 .img {
+  object-fit: contain;
   --path: '';
   max-width: min(100%, 1000px);
   max-height: min(100%, 580px);
