@@ -6,6 +6,7 @@ import {useEffect, useState} from 'react';
 import {useRef} from 'react';
 import {Notification} from '../../Notification/Notification';
 import {Like} from './Like/Like';
+import notPhoto from './img/default.jpg';
 
 export const Photo = ({photo, status}) => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ export const Photo = ({photo, status}) => {
   const {page} = useParams();
   const [openNotification, setOpenNotification] = useState(false);
   const [countlLike, setCountLike] = useState(photo.likes);
+  const imgRef = useRef(null);
 
   const handleClick = (e) => {
     const target = e.target;
@@ -63,7 +65,11 @@ export const Photo = ({photo, status}) => {
           }}
           className={style.img}
           src={photo.urls.regular}
+          onError={() => {
+            imgRef.current.src = notPhoto;
+          }}
           alt={photo.alt_description}
+          ref={imgRef}
         />
       </article>
       {openNotification && <Notification close={setOpenNotification} />}

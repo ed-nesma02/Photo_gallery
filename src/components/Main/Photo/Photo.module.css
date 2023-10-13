@@ -9,6 +9,7 @@
 }
 
 .img {
+  object-fit: contain;
   z-index: 4;
   width: 100%;
   vertical-align:top;
