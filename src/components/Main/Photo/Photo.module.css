@@ -41,6 +41,7 @@
   bottom: 0;
   left: 10px;
   gap: 0 10px;
+  pointer-events: all;
 }
 
 .thumbnail {
@@ -51,6 +52,7 @@
 }
 
 .like {
+  pointer-events: all;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,7 +63,6 @@
   border: none;
   opacity: .8;
   color: rgba(0, 0, 0, 0.8);
-  pointer-events: all;
 }
 
 
@@ -116,6 +117,9 @@
   .thumbnail {
     width: 42px;
     height: 42px;
+  }
+  .like {
+    pointer-events: all;
   }
   .like:hover {
     opacity: 1;
